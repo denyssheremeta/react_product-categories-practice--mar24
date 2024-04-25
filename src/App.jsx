@@ -8,6 +8,7 @@ import productsFromServer from './api/products';
 
 import { ProductTable } from './components/ProductTable';
 import { FilterSection } from './components/FiltersSection';
+import { getFilteredProducts } from './components/Utils/getFilteredProducts';
 
 const products = productsFromServer.map(product => {
   const category = categoriesFromServer.find(
@@ -22,7 +23,9 @@ const products = productsFromServer.map(product => {
 
 export const App = () => {
   const [userId, setUserId] = useState('');
-  const [visibleProducts, setVisibleProducts] = useState(products);
+  const [query, setQuery] = useState('');
+
+  const filteredProducts = getFilteredProducts(products, { userId, query });
 
   return (
     <div className="section">
@@ -30,19 +33,20 @@ export const App = () => {
         <h1 className="title">Product Categories</h1>
 
         <FilterSection
-          users={usersFromServer}
-          categories={categoriesFromServer}
-          products={products}
-          setVisibleProducts={setVisibleProducts}
           userId={userId}
           setUserId={setUserId}
+          query={query}
+          setQuery={setQuery}
         />
 
         <div className="box table-container">
-          <p data-cy="NoMatchingMessage">
-            No products matching selected criteria
-          </p>
-          <ProductTable products={visibleProducts} />
+          {filteredProducts.length === 0 ? (
+            <p data-cy="NoMatchingMessage">
+              No products matching selected criteria
+            </p>
+          ) : (
+            <ProductTable visibleProducts={filteredProducts} />
+          )}
         </div>
       </div>
     </div>

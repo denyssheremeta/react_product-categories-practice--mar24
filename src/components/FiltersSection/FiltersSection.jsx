@@ -1,70 +1,22 @@
-import cn from 'classnames';
+import categoriesFromServer from '../../api/categories';
 
-export const FilterSection = ({
-  products,
-  users,
-  categories,
+import { FilterByUserSection } from '../FilterByUserSection';
+import { FilterBySearchSection } from '../FilterBySearchSection';
 
-  userId,
-  setUserId,
-  setVisibleProducts,
-}) => {
-  const filteredByUserId = id =>
-    [...products].filter(product => product.user.id === id);
+export const FilterSection = ({ userId, setUserId, query, setQuery }) => {
+  const handleResetButton = () => {
+    setQuery('');
+    setUserId('');
+  };
 
   return (
     <div className="block">
       <nav className="panel">
         <p className="panel-heading">Filters</p>
 
-        <p className="panel-tabs has-text-weight-bold">
-          <a
-            data-cy="FilterAllUsers"
-            href="#/"
-            onClick={() => {
-              setUserId('');
-              setVisibleProducts(products);
-            }}
-          >
-            All
-          </a>
+        <FilterByUserSection userId={userId} setUserId={setUserId} />
 
-          {users.map(user => (
-            <a
-              data-cy="FilterUser"
-              href="#/"
-              key={user.id}
-              onClick={() => {
-                setUserId(user.id);
-                setVisibleProducts(filteredByUserId(user.id));
-              }}
-              className={cn({ 'is-active': user.id === userId })}
-            >
-              {user.name}
-            </a>
-          ))}
-        </p>
-
-        <div className="panel-block">
-          <p className="control has-icons-left has-icons-right">
-            <input
-              data-cy="SearchField"
-              type="text"
-              className="input"
-              placeholder="Search"
-              value="qwe"
-            />
-
-            <span className="icon is-left">
-              <i className="fas fa-search" aria-hidden="true" />
-            </span>
-
-            <span className="icon is-right">
-              {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
-              <button data-cy="ClearButton" type="button" className="delete" />
-            </span>
-          </p>
-        </div>
+        <FilterBySearchSection query={query} setQuery={setQuery} />
 
         <div className="panel-block is-flex-wrap-wrap">
           <a
@@ -79,7 +31,7 @@ export const FilterSection = ({
             Category 1
           </a>
 
-          {categories.map(category => (
+          {categoriesFromServer.map(category => (
             <a
               data-cy="Category"
               className="button mr-2 my-1"
@@ -96,6 +48,7 @@ export const FilterSection = ({
             data-cy="ResetAllButton"
             href="#/"
             className="button is-link is-outlined is-fullwidth"
+            onClick={handleResetButton}
           >
             Reset all filters
           </a>
