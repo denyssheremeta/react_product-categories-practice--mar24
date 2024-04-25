@@ -7,14 +7,14 @@ export const FilterBySearchSection = ({ query, setQuery }) => (
         className="input"
         placeholder="Search"
         value={query}
-        onChange={event => setQuery(event.target.value)}
+        onChange={event => setQuery(event.target.value.trimStart())}
       />
 
       <span className="icon is-left">
         <i className="fas fa-search" aria-hidden="true" />
       </span>
 
-      {query && (
+      {query.trim() && (
         <span className="icon is-right">
           <button
             data-cy="ClearButton"
