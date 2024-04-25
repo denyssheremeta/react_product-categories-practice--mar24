@@ -14,14 +14,16 @@ export const FilterBySearchSection = ({ query, setQuery }) => (
         <i className="fas fa-search" aria-hidden="true" />
       </span>
 
-      <span className="icon is-right">
-        <button
-          data-cy="ClearButton"
-          type="button"
-          className="delete"
-          onClick={() => setQuery('')}
-        />
-      </span>
+      {query && (
+        <span className="icon is-right">
+          <button
+            data-cy="ClearButton"
+            type="button"
+            className="delete"
+            onClick={() => setQuery('')}
+          />
+        </span>
+      )}
     </p>
   </div>
 );
