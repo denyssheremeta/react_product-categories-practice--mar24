@@ -10,6 +10,7 @@ export const FilterByUserSection = ({ userId, setUserId }) => (
       onClick={() => {
         setUserId('');
       }}
+      className={cn({ 'is-active': !userId })}
     >
       All
     </a>

@@ -1,12 +1,19 @@
-import categoriesFromServer from '../../api/categories';
-
 import { FilterByUserSection } from '../FilterByUserSection';
 import { FilterBySearchSection } from '../FilterBySearchSection';
+import { FilterByCategorySection } from '../FilterByCategorySection';
 
-export const FilterSection = ({ userId, setUserId, query, setQuery }) => {
+export const FilterSection = ({
+  userId,
+  setUserId,
+  query,
+  setQuery,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
   const handleResetButton = () => {
     setQuery('');
     setUserId('');
+    setSelectedCategory([]);
   };
 
   return (
@@ -18,30 +25,10 @@ export const FilterSection = ({ userId, setUserId, query, setQuery }) => {
 
         <FilterBySearchSection query={query} setQuery={setQuery} />
 
-        <div className="panel-block is-flex-wrap-wrap">
-          <a
-            href="#/"
-            data-cy="AllCategories"
-            className="button is-success mr-6 is-outlined"
-          >
-            All
-          </a>
-
-          <a data-cy="Category" className="button mr-2 my-1 is-info" href="#/">
-            Category 1
-          </a>
-
-          {categoriesFromServer.map(category => (
-            <a
-              data-cy="Category"
-              className="button mr-2 my-1"
-              href="#/"
-              key={category.id}
-            >
-              {category.title}
-            </a>
-          ))}
-        </div>
+        <FilterByCategorySection
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
 
         <div className="panel-block">
           <a

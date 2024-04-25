@@ -24,8 +24,17 @@ const products = productsFromServer.map(product => {
 export const App = () => {
   const [userId, setUserId] = useState('');
   const [query, setQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [sortBy, setSortBy] = useState('');
+  const [reversedSort, setReversedSort] = useState(false);
 
-  const filteredProducts = getFilteredProducts(products, { userId, query });
+  const filteredProducts = getFilteredProducts(products, {
+    userId,
+    query,
+    selectedCategory,
+    sortBy,
+    reversedSort,
+  });
 
   return (
     <div className="section">
@@ -37,6 +46,8 @@ export const App = () => {
           setUserId={setUserId}
           query={query}
           setQuery={setQuery}
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
         />
 
         <div className="box table-container">
@@ -45,7 +56,13 @@ export const App = () => {
               No products matching selected criteria
             </p>
           ) : (
-            <ProductTable visibleProducts={filteredProducts} />
+            <ProductTable
+              visibleProducts={filteredProducts}
+              sortBy={sortBy}
+              setSortBy={setSortBy}
+              reversedSort={reversedSort}
+              setReversedSort={setReversedSort}
+            />
           )}
         </div>
       </div>
